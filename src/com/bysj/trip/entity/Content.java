@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "content")
+@Table(name = "t_content")
 public class Content {
 
 	private long contentId;

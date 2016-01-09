@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "contentimage")
+@Table(name = "t_contentimage")
 public class ContentImage {
 
 	private long imageId;

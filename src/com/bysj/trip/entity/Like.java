@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "like")
+@Table(name = "t_like")
 public class Like {
 
 	private long likeId;

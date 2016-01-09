@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "t_comment")
 public class Comment {
 
 	private long commentId;
