@@ -34,7 +34,9 @@ public class SHATest {
     public void test(){
 //        String string = null;
 //        System.out.println(string.isEmpty());
-        System.out.println(SecurityUtils.getToken());
-        System.out.println(new Random(Calendar.getInstance().getTimeInMillis()).nextInt(6));
+//        System.out.println(SecurityUtils.getToken());
+//        System.out.println(new Random(Calendar.getInstance().getTimeInMillis()).nextInt(6));
+        
+        System.out.println(System.getProperty("user.dir"));
     }
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -20,7 +20,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
   </head>
   
-  <body>
-    This is my JSP page. <br>
-  </body>
+<body>  
+<h2>文件上传实例</h2>  
+  
+  
+<form action="user/1/change_avatar" method="post" enctype="multipart/form-data">  
+    选择文件:<input type="file" name="headImage">
+    <input type="text" name="token">  
+    <input type="submit" value="提交">   
+</form>  
+  
+  
+</body>  
 </html>
