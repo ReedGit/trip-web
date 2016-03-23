@@ -160,9 +160,10 @@ public class UserController {
                     result.put("code", "0");
                     result.put("msg", "已成功修改密码！");
                 } else {
-                    result.put("code", "0");
+                    result.put("code", "1");
                     result.put("msg", "用户密码输入错误！");
                 }
+                return result;
             }
             userService.updateUser(user);
             User newUser = userService.findById(id);
