@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bysj.dto.UserDto;
 import com.bysj.model.User;
 import com.bysj.service.UserService;
+import com.bysj.utils.Constants;
 import com.bysj.utils.SecurityUtils;
 
 @Controller
@@ -43,11 +45,13 @@ public class UserController {
     @ResponseBody
     public JSONObject register(@RequestParam Map<String, Object> map) {
         JSONObject result = new JSONObject();
+        String nickname = map.get("nickname").toString().trim();
         String email = map.get("email").toString().trim();
         String password = map.get("password").toString().trim();
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
+        user.setNickName(nickname);
 
         if (userService.findByUsername(email) == null) {
             try {
@@ -78,7 +82,8 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public JSONObject login(@RequestParam Map<String, Object> map) {
+    public JSONObject login(@RequestParam Map<String, Object> map,
+                            HttpServletRequest request) {
         JSONObject result = new JSONObject();
         String email = map.get("email").toString().trim();
         String password = map.get("password").toString().trim();
@@ -88,6 +93,10 @@ public class UserController {
             user.setToken(token);
             userService.updateUser(user);
             User newUser = userService.findById(user.getUserId());
+            
+            HttpSession session = request.getSession();
+            session.setAttribute(Constants.USER_KEY, user.getEmail());
+            
             UserDto userDto = new UserDto(newUser);
             result.put("code", "0");
             result.put("msg", "success");
@@ -160,9 +169,10 @@ public class UserController {
                     result.put("code", "0");
                     result.put("msg", "已成功修改密码！");
                 } else {
-                    result.put("code", "0");
+                    result.put("code", "1");
                     result.put("msg", "用户密码输入错误！");
                 }
+                return result;
             }
             userService.updateUser(user);
             User newUser = userService.findById(id);

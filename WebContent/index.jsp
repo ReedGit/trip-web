@@ -29,6 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <input type="text" name="token">  
     <input type="submit" value="提交">   
 </form>  
+
+<img alt="" src="upload/1/05774a51-c038-47bb-9d85-26ccaec4657f.png">
   
   
 </body>  

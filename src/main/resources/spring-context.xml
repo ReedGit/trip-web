@@ -26,6 +26,8 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	
+	<mvc:resources location="/upload/" mapping="/upload/**" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">

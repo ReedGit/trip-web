@@ -2,12 +2,8 @@ package com.bysj;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.Calendar;
-import java.util.Random;
 
 import org.junit.Test;
-
-import com.bysj.utils.SecurityUtils;
 
 public class SHATest {
     

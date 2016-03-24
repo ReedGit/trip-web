@@ -1,7 +1,6 @@
 package com.bysj.controller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -221,8 +220,9 @@ public class UserControllerTest {
         try {  
             String BOUNDARY = "---------------------------289502075121020"; // 定义数据分隔线
             URL url = new URL(BASEURL+"/user/1/change_avatar");
-            Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888));
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+//            Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888));
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             // 发送POST请求必须设置如下两行  
             conn.setDoOutput(true);  
             conn.setDoInput(true);  
