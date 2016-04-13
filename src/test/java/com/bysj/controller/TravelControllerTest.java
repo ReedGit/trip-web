@@ -12,20 +12,19 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-public class UserControllerTest {
-
-    private static final String BASEURL = "http://localhost:8080/trip";
+public class TravelControllerTest {
+    
+    private static final String BASEURL = "http://localhost:8080/trip/travel";
 
     @Test
-    public void register() {
-        String url = BASEURL + "/user/register";
-        String data = "email=1101409940@qq.com&password=-3d46dda4497f6393b130feabbd910027";
+    public void create() {
+        String url = BASEURL + "/create";
+        String data = "userId=6&title=你好啊&startTime=2012-12-21 00:00:00&endTime=2012-12-23 00:00:00";
         try {
             URL url2 = new URL(url);
             HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
@@ -47,7 +46,7 @@ public class UserControllerTest {
             }
             writer.close();
             reader.close();
-            System.out.println("register:"+answer);
+            System.out.println("create:"+answer);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -56,9 +55,9 @@ public class UserControllerTest {
     }
     
     @Test
-    public void login(){
-        String url = BASEURL + "/user/login";
-        String data = "email=zerolu@nuist.com&password=-3d46dda4497f6393b130feabbd910027";
+    public void delete() {
+        String url = BASEURL + "/delete";
+        String data = "userId=6&token=4f11d4d9-0ed3-48f1-88f5-d92c987541c6&travelId=7";
         try {
             URL url2 = new URL(url);
             HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
@@ -80,7 +79,7 @@ public class UserControllerTest {
             }
             writer.close();
             reader.close();
-            System.out.println("login:"+answer);
+            System.out.println("deleete:"+answer);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -89,35 +88,10 @@ public class UserControllerTest {
     }
     
     @Test
-    public void getUser(){
-        String url = BASEURL + "/user/1";
-        try {
-            URL url2 = new URL(url);
-            HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-            // Get the response
-            StringBuffer answer = new StringBuffer();
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                answer.append(line);
-            }
-            reader.close();
-            System.out.println("getUser:"+answer);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @Test
-    public void edituser(){
-        String url = BASEURL + "/user/1";
-        String data = "email=zerolu@nuist.com&password=-3d46dda4497f6393b130feabbd910027&introduction=你好世界"
-                + "&token=e9a132d0-4133-4ca1-b6f6-2832db03f653&introduction=你好世界&nickname=苏轼";
+    public void createContent() {
+        String url = BASEURL + "/content/create";
+        String data = "travelId=8&article=nihaonihaonihaonihaonihao&location=nanjing;yancheng"
+                + "&coordinate=33.33,44.33;33.44,55.33&day=1";
         try {
             URL url2 = new URL(url);
             HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
@@ -139,70 +113,7 @@ public class UserControllerTest {
             }
             writer.close();
             reader.close();
-            System.out.println("editUser:"+answer);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * 
-     */
-    @SuppressWarnings("deprecation")
-    @Test
-    public void exist(){
-        String url = BASEURL + "/user/exist?";
-        String data = "email="+URLEncoder.encode("zerol@nuist.com");
-        try {
-            URL url2 = new URL(url+data);
-            HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
-            urlConnection.setRequestMethod("GET");
-
-            // Get the response
-            StringBuffer answer = new StringBuffer();
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                answer.append(line);
-            }
-            reader.close();
-            System.out.println("exist:"+answer);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @Test
-    public void reset(){
-        String url = BASEURL + "/user/reset";
-        String data = "email=1101409940@qq.com";
-        try {
-            URL url2 = new URL(url);
-            HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setDoOutput(true);
-            OutputStreamWriter writer = new OutputStreamWriter(
-                    urlConnection.getOutputStream());
-
-            writer.write(data);
-            writer.flush();
-
-            // Get the response
-            StringBuffer answer = new StringBuffer();
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                answer.append(line);
-            }
-            writer.close();
-            reader.close();
-            System.out.println("reset:"+answer);
+            System.out.println("create:"+answer);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -216,7 +127,7 @@ public class UserControllerTest {
         list.add("C:\\Users\\zerolu\\Pictures\\blog-572x320-stackoverflow.png");
         try {  
             String BOUNDARY = "---------------------------289502075121020"; // 定义数据分隔线
-            URL url = new URL(BASEURL+"/user/1/change_avatar");
+            URL url = new URL(BASEURL+"/content/addImage");
 //            Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("localhost", 8888));
 //            HttpURLConnection conn = (HttpURLConnection) url.openConnection(proxy);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -240,7 +151,7 @@ public class UserControllerTest {
                 sb.append("--");    
                 sb.append(BOUNDARY);    
                 sb.append("\r\n");    
-                sb.append("Content-Disposition: form-data; name=\"headImage"+"\"; filename=\""+ file.getName() + "\"\r\n");    
+                sb.append("Content-Disposition: form-data; name=\"image"+"\"; filename=\""+ file.getName() + "\"\r\n");    
                 sb.append("Content-Type: image/png\r\n\r\n");    
                   
                 byte[] data = sb.toString().getBytes();  
@@ -257,8 +168,8 @@ public class UserControllerTest {
             StringBuilder text = new StringBuilder();
             text.append("\r\n--")
                 .append(BOUNDARY+"\r\n")
-                .append("Content-Disposition: form-data; name=\"userId\"\r\n\r\n")
-                .append("e9a132d0-4133-4ca1-b6f6-2832db03f653");
+                .append("Content-Disposition: form-data; name=\"contentId\"\r\n\r\n")
+                .append("29");
             out.write(text.toString().getBytes());
             out.write(end_data);  
             out.flush();    
@@ -279,4 +190,55 @@ public class UserControllerTest {
             e.printStackTrace();  
         }  
     }
+    
+    @Test
+    public void explore(){
+        String url = BASEURL + "/explore";
+        try {
+            URL url2 = new URL(url);
+            HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
+            urlConnection.setRequestMethod("GET");
+
+            // Get the response
+            StringBuffer answer = new StringBuffer();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(urlConnection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                answer.append(line);
+            }
+            reader.close();
+            System.out.println("getUser:"+answer);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void search(){
+        String url = BASEURL + "/search?q=nan";
+        try {
+            URL url2 = new URL(url);
+            HttpURLConnection urlConnection = (HttpURLConnection) url2.openConnection();
+            urlConnection.setRequestMethod("GET");
+
+            // Get the response
+            StringBuffer answer = new StringBuffer();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(urlConnection.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                answer.append(line);
+            }
+            reader.close();
+            System.out.println("getUser:"+answer);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

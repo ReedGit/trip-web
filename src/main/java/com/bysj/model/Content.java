@@ -1,7 +1,5 @@
 package com.bysj.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,6 @@ public class Content {
 	private long contentId;
 	private String article;
 	private String location;
-	private Date time;
 	private long travelId;
 	private String coordinate;
 	private int day;
@@ -52,15 +49,6 @@ public class Content {
 		this.location = location;
 	}
 
-	@Column(name = "time")
-	public Date getTime() {
-		return time;
-	}
-
-	public void setTime(Date time) {
-		this.time = time;
-	}
-
 	@Column(name = "travelid")
 	public long getTravelId() {
 		return travelId;
@@ -91,7 +79,7 @@ public class Content {
 	@Override
 	public String toString() {
 		return "Content [contentId=" + contentId + ", article=" + article
-				+ ", location=" + location + ", time=" + time + ", travelId="
+				+ ", location=" + location + ", travelId="
 				+ travelId + ", coordinate=" + coordinate + ", day=" + day
 				+ "]";
 	}

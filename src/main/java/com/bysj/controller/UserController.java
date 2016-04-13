@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +21,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.bysj.dto.UserDto;
 import com.bysj.model.User;
 import com.bysj.service.UserService;
-import com.bysj.utils.Constants;
 import com.bysj.utils.SecurityUtils;
 
+/**
+ * 
+* <p>Title: UserController</p>
+* <p>Description: </p>
+* <p>Copyright: Copyright (c) 2016</p>
+* @author zerolu
+* @date 2016年3月25日
+* @version 1.0
+ */
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
@@ -58,16 +65,16 @@ public class UserController {
                 userService.saveUser(user);
                 User savedUser = userService.findByUsername(email);
                 UserDto userDto = new UserDto(savedUser);
-                result.put("code", "0");
+                result.put("status", "0");
                 result.put("msg", "success");
                 result.put("data", userDto);
             } catch (Exception e) {
-                result.put("code", "1");
+                result.put("status", "1");
                 result.put("msg", e.getMessage());
                 logger.error(e.getMessage());
             }
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "用户名已经被注册！");
             logger.error("用户名已经被注册！");
         }
@@ -85,24 +92,39 @@ public class UserController {
     public JSONObject login(@RequestParam Map<String, Object> map,
                             HttpServletRequest request) {
         JSONObject result = new JSONObject();
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies != null){
+//            for(Cookie cookie : cookies){
+//                if()
+//            }
+//        }
+        
         String email = map.get("email").toString().trim();
         String password = map.get("password").toString().trim();
+//        int autoLogin = 0;
+//        if(map.get("autoLogin") != null){
+//            autoLogin = Integer.parseInt(map.get(autoLogin).toString());
+//        }
         User user = userService.findByNameAndPass(email, password);
         if (user != null) {
             String token = SecurityUtils.getToken();
             user.setToken(token);
             userService.updateUser(user);
             User newUser = userService.findById(user.getUserId());
-            
-            HttpSession session = request.getSession();
-            session.setAttribute(Constants.USER_KEY, user.getEmail());
-            
+//            //保存session
+//            HttpSession session = request.getSession();
+//            session.setAttribute(Constants.USER_KEY, newUser.getEmail());
+//            session.setMaxInactiveInterval(Constants.MAX_ACTIVE_TIME);
+//            
+//            if(autoLogin == 1){
+//                Cookie cookie = 
+//            }
             UserDto userDto = new UserDto(newUser);
-            result.put("code", "0");
+            result.put("status", "0");
             result.put("msg", "success");
             result.put("data", userDto);
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "用户名或者密码错误！");
             logger.error("用户名或者密码错误！");
         }
@@ -123,11 +145,11 @@ public class UserController {
         UserDto userDto = new UserDto(user);
         userDto.setToken(null);
         if (user != null) {
-            result.put("code", "0");
+            result.put("status", "0");
             result.put("msg", "success");
             result.put("data", userDto);
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "该用户不存在！");
         }
         return result;
@@ -146,7 +168,7 @@ public class UserController {
         JSONObject result = new JSONObject();
         String token = null;
         if (map.get("token") == null) {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "非法修改！");
             return result;
         }
@@ -166,10 +188,10 @@ public class UserController {
                 if (user.getPassword().equals(map.get("password"))) {
                     user.setPassword(map.get("newpassword").toString());
                     userService.updateUser(user);
-                    result.put("code", "0");
+                    result.put("status", "0");
                     result.put("msg", "已成功修改密码！");
                 } else {
-                    result.put("code", "1");
+                    result.put("status", "1");
                     result.put("msg", "用户密码输入错误！");
                 }
                 return result;
@@ -177,11 +199,11 @@ public class UserController {
             userService.updateUser(user);
             User newUser = userService.findById(id);
             UserDto userDto = new UserDto(newUser);
-            result.put("code", "0");
+            result.put("status", "0");
             result.put("msg", "用户信息已经成功修改");
             result.put("data", userDto);
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "该用户校验出现异常，非法修改信息！");
         }
         return result;
@@ -212,14 +234,14 @@ public class UserController {
                 javaMailSender.send(message);
                 user.setPassword(SecurityUtils.encode(newPassword));
                 userService.updateUser(user);
-                result.put("code", "0");
+                result.put("status", "0");
                 result.put("msg", "密码重置成功！");
             } catch (Exception e) {
-                result.put("code", "1");
+                result.put("status", "1");
                 result.put("msg", e.getMessage());
             }
         } else {
-            result.put("code", "0");
+            result.put("status", "0");
             result.put("msg", "该用户不存在！");
         }
         return result;
@@ -238,14 +260,14 @@ public class UserController {
             String email = map.get("email").toString();
             User user = userService.findByUsername(email);
             if (user != null) {
-                result.put("code", "1");
+                result.put("status", "1");
                 result.put("msg", "邮箱已被注册！");
             } else {
-                result.put("code", "0");
+                result.put("status", "0");
                 result.put("msg", "邮箱未被注册！");
             }
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "注册邮箱不能为空！");
         }
         return result;
@@ -268,7 +290,7 @@ public class UserController {
         String fileParentPath = request.getSession().getServletContext().getRealPath("/");
         String token = null;
         if (map.get("token") == null) {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "非法修改！");
             return result;
         }
@@ -277,7 +299,7 @@ public class UserController {
         if (user != null && !file.isEmpty()) {
             result = userService.saveImage(id,file, fileParentPath);
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "上传图片出现错误！");
         }
         return result;

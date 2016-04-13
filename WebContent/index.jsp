@@ -27,7 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <form action="user/1/change_avatar" method="post" enctype="multipart/form-data">  
     选择文件:<input type="file" name="headImage">
     <input type="text" name="token">  
-    <input type="submit" value="提交">   
+    <input type="submit" value="提交"> 
+    <input type="checkbox" name="autologin" value="1">  
 </form>  
 
 <img alt="" src="upload/1/05774a51-c038-47bb-9d85-26ccaec4657f.png">

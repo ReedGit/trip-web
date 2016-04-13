@@ -93,18 +93,18 @@ public class UserServiceImpl implements UserService{
                 
                 this.updateUser(user);
                 UserDto userDto = new UserDto(user);
-                result.put("code", "0");
+                result.put("status", "0");
                 result.put("msg", "图片上传成功");
                 result.put("data", userDto);
             } catch (IllegalStateException e) {
-                result.put("code", "1");
+                result.put("status", "1");
                 result.put("msg", e.getMessage());
             } catch (IOException e) {
-                result.put("code", "1");
+                result.put("status", "1");
                 result.put("msg", e.getMessage());
             }
         } else {
-            result.put("code", "1");
+            result.put("status", "1");
             result.put("msg", "图片格式只支持jpg/png/gif!");
         }
         return result;

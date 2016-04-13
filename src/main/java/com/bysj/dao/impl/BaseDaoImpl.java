@@ -1,12 +1,14 @@
 package com.bysj.dao.impl;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bysj.dao.BaseDao;
+import com.bysj.model.PageBean;
 
 /**
  * 
@@ -35,8 +37,9 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
     }
 
     @Override
-    public void save(T entity) {
+    public T save(T entity) {
         getSession().save(entity);
+        return entity;
     }
 
     @SuppressWarnings("unchecked")
@@ -51,5 +54,26 @@ public class BaseDaoImpl<T> implements BaseDao<T>{
         getSession().flush();
     }
 
-    
+    @SuppressWarnings("unchecked")
+    @Override
+    public PageBean<T> findAllByPage(int page, int size, String hql) {
+        PageBean<T> pageBean = new PageBean<T>(page,size);
+        StringBuilder from = new StringBuilder();
+        from.append("from ").append(clazz.getSimpleName()).append(hql.toString());
+        List<T> list = getSession().createQuery(from.toString())
+                .setFirstResult((page - 1) * size)
+                .setMaxResults(size).list();
+        pageBean.setList(list);
+        pageBean.setTotal(getTotal());
+        return pageBean;
+    }
+
+    @Override
+    public int getTotal() {
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(*) from ").append(clazz.getSimpleName());
+        Object total = getSession().createQuery(hql.toString()).uniqueResult();
+        return Integer.parseInt(total.toString());
+    }
+
 }

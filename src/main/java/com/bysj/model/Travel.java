@@ -1,6 +1,9 @@
 package com.bysj.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,86 +17,121 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "t_travel")
 public class Travel {
 
-	private long travelId;
-	private String title;
-	private Date startTime;
-	private Date endTime;
-	private long userId;
-	private String introduction;
-	private String label;
+    private long travelId;
+    private String title;
+    private Date startTime;
+    private Date endTime;
+    @Column(name="createtime")
+    private Date createTime;
+    private long userId;
+    private String introduction;
 
-	@Id
-	@GenericGenerator(name = "generator", strategy = "native")
-	@GeneratedValue(generator = "generator")
-	@Column(name = "travelid")
-	public long getTravelId() {
-		return travelId;
-	}
+    public Travel(){
+        
+    }
+    
+    public Travel(Map<String, Object> map) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (map.get("travelId") != null) {
+            this.travelId = Long.parseLong(map.get("travelId").toString());
+        }
+        if (map.get("title") != null) {
+            this.title = map.get("title").toString();
+        }
 
-	public void setTravelId(long travelId) {
-		this.travelId = travelId;
-	}
+        try {
+            if (map.get("startTime") != null) {
+                Date startTime = sdf.parse(map.get("startTime").toString());
+                this.startTime = startTime;
+            }
+            if (map.get("endTime") != null) {
+                Date endTime = sdf.parse(map.get("endTime").toString());
+                this.endTime = endTime;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-	@Column(name = "title")
-	public String getTitle() {
-		return title;
-	}
+        if (map.get("userId") != null) {
+            this.userId = Long.parseLong(map.get("userId").toString());
+        }
+        if (map.get("introduction") != null) {
+            this.introduction = map.get("introduction").toString();
+        }
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    @Id
+    @GenericGenerator(name = "generator", strategy = "native")
+    @GeneratedValue(generator = "generator")
+    @Column(name = "travelid")
+    public long getTravelId() {
+        return travelId;
+    }
 
-	@Column(name = "starttime")
-	public Date getStartTime() {
-		return startTime;
-	}
+    public void setTravelId(long travelId) {
+        this.travelId = travelId;
+    }
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
 
-	@Column(name = "endtime")
-	public Date getEndTime() {
-		return endTime;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    @Column(name = "starttime")
+    public Date getStartTime() {
+        return startTime;
+    }
 
-	@Column(name = "userid")
-	public long getUserId() {
-		return userId;
-	}
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+    @Column(name = "endtime")
+    public Date getEndTime() {
+        return endTime;
+    }
 
-	@Column(name = "introduction")
-	public String getIntroduction() {
-		return introduction;
-	}
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
-	public void setIntroduction(String introduction) {
-		this.introduction = introduction;
-	}
+    @Column(name = "userid")
+    public long getUserId() {
+        return userId;
+    }
 
-	@Column(name = "label")
-	public String getLabel() {
-		return label;
-	}
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    @Column(name = "introduction")
+    public String getIntroduction() {
+        return introduction;
+    }
 
-	@Override
-	public String toString() {
-		return "Travel [travelId=" + travelId + ", title=" + title
-				+ ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", userId=" + userId + ", introduction=" + introduction
-				+ ", label=" + label + "]";
-	}
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    @Override
+    public String toString() {
+        return "Travel [travelId=" + travelId + ", title=" + title
+                + ", startTime=" + startTime + ", endTime=" + endTime
+                + ", createTime=" + createTime + ", userId=" + userId
+                + ", introduction=" + introduction
+                + "]";
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
 }
