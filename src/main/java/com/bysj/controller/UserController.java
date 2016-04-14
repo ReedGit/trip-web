@@ -141,10 +141,8 @@ public class UserController {
     public JSONObject getUser(@PathVariable long id,
             @RequestParam Map<String, Object> map) {
         JSONObject result = new JSONObject();
-        User user = userService.findById(id);
-        UserDto userDto = new UserDto(user);
-        userDto.setToken(null);
-        if (user != null) {
+        UserDto userDto = userService.findByUserId(id);
+        if (userDto != null) {
             result.put("status", "0");
             result.put("msg", "success");
             result.put("data", userDto);

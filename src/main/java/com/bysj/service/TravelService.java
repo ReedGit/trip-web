@@ -21,4 +21,5 @@ public interface TravelService {
     public boolean deleteTravel(long id);
     
     public List<ContentDto> detail(long travelId);
+    
 }

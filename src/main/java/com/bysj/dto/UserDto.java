@@ -11,6 +11,9 @@ public class UserDto {
     private int sex;//1表示男，0表示女
     private String introduction;
     private String token;
+    private int liked;
+    private int collection;
+    private int travels;
     
     public UserDto(User user){
         this.userId = user.getUserId();
@@ -62,5 +65,23 @@ public class UserDto {
     }
     public void setToken(String token) {
         this.token = token;
+    }
+    public int getLiked() {
+        return liked;
+    }
+    public void setLiked(int liked) {
+        this.liked = liked;
+    }
+    public int getCollection() {
+        return collection;
+    }
+    public void setCollection(int collection) {
+        this.collection = collection;
+    }
+    public int getTravels() {
+        return travels;
+    }
+    public void setTravels(int travels) {
+        this.travels = travels;
     }
 }

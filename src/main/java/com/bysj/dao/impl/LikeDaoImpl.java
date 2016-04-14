@@ -56,4 +56,14 @@ public class LikeDaoImpl extends BaseDaoImpl<Like>
         return (delete == 0 ? false : true);
     }
 
+    @Override
+    public int getTotalByUser(long userId) {
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(*) from Like c ")
+           .append(" where c.userId = :userId ");
+        Object total = getSession().createQuery(hql.toString())
+                .setLong("userId", userId).uniqueResult();
+        return Integer.parseInt(total.toString());
+    }
+
 }

@@ -7,5 +7,6 @@ public interface CommentDao extends BaseDao<Comment>{
     
     public boolean deleteComment(long commentId);
     public PageBean<Comment> findCommentByPage(int page,int size,long travelId);
-    public int getTotal(int page, int size,long travelId);
+    public int getTotal(long travelId);
+    public int getTotalByUser(long userId);
 }

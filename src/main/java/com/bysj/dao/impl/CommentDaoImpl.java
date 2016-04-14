@@ -36,13 +36,12 @@ public class CommentDaoImpl extends BaseDaoImpl<Comment> implements CommentDao {
                 .setMaxResults(size)
                 .list();
         pageBean.setList(comments);
-        pageBean.setTotal(getTotal(page, size, travelId));
+        pageBean.setTotal(getTotal(travelId));
         return pageBean;
     }
     
     @Override
-    public int getTotal(int page, int size,
-            long travelId) {
+    public int getTotal(long travelId) {
         StringBuilder hql = new StringBuilder();
         hql.append("select count(*) from Comment c ")
            .append(" where c.travelId = :travelId ");
@@ -51,4 +50,13 @@ public class CommentDaoImpl extends BaseDaoImpl<Comment> implements CommentDao {
         return Integer.parseInt(total.toString());
     }
 
+    @Override
+    public int getTotalByUser(long userId) {
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(*) from Comment c ")
+           .append(" where c.userId = :userId ");
+        Object total = getSession().createQuery(hql.toString())
+                .setLong("userId", userId).uniqueResult();
+        return Integer.parseInt(total.toString());
+    }
 }

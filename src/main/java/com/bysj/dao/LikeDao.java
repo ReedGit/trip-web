@@ -13,4 +13,6 @@ public interface LikeDao extends BaseDao<Like>{
     public int getTotalByTravel(long travelId);
     
     public boolean deleteLike(long travelId,long userId);
+    
+    public int getTotalByUser(long userId);
 }

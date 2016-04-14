@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bysj.dao.CollectionDao;
+import com.bysj.dao.LikeDao;
+import com.bysj.dao.TravelDao;
 import com.bysj.dao.UserDao;
 import com.bysj.dto.UserDto;
 import com.bysj.model.User;
@@ -22,6 +25,15 @@ public class UserServiceImpl implements UserService{
 
     @Resource(name="userDao")
     private UserDao userDao;
+
+    @Resource(name = "likeDao")
+    private LikeDao likeDao;
+    
+    @Resource(name = "travelDao")
+    private TravelDao travelDao;
+    
+    @Resource(name = "collectionDao")
+    private CollectionDao collectionDao;
     
     /**
      * 添加用户
@@ -108,6 +120,20 @@ public class UserServiceImpl implements UserService{
             result.put("msg", "图片格式只支持jpg/png/gif!");
         }
         return result;
+    }
+
+    @Override
+    public UserDto findByUserId(long userId) {
+        User user = findById(userId);
+        UserDto userDto = null;
+        if (user != null) {
+            userDto = new UserDto(user);
+            userDto.setToken(null);
+            userDto.setCollection(collectionDao.getTotalByUser(userId));
+            userDto.setTravels(travelDao.getTotalByUser(userId));
+            userDto.setLiked(likeDao.getTotalByUser(userId));
+        }
+        return userDto;
     }
     
 }

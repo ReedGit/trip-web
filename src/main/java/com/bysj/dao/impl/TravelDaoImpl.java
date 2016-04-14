@@ -109,6 +109,16 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
         return pageBean;
     }
     
+    @Override
+    public int getTotalByUser(long userId) {
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(*) from Travel c ")
+           .append(" where c.userId = :userId ");
+        Object total = getSession().createQuery(hql.toString())
+                .setLong("userId", userId).uniqueResult();
+        return Integer.parseInt(total.toString());
+    }
+
     public int getTotal(List<Long> ids){
         StringBuilder hql = new StringBuilder();
         hql.append("select distinct t from Travel t where t.travelId in :ids");

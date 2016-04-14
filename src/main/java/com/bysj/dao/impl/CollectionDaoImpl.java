@@ -54,5 +54,15 @@ public class CollectionDaoImpl extends BaseDaoImpl<Collection> implements Collec
                 .executeUpdate();
         return (delete == 0 ? false : true);
     }
+
+    @Override
+    public int getTotalByUser(long userId) {
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(*) from Collection c ")
+           .append(" where c.userId = :userId ");
+        Object total = getSession().createQuery(hql.toString())
+                .setLong("userId", userId).uniqueResult();
+        return Integer.parseInt(total.toString());
+    }
     
 }

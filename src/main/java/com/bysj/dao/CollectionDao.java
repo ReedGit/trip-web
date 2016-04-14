@@ -13,4 +13,6 @@ public interface CollectionDao extends BaseDao<Collection>{
     public int getTotalByTravel(long travelId);
     
     public boolean deleteCollection(long travelId,long userId);
+    
+    public int getTotalByUser(long userId);
 }
