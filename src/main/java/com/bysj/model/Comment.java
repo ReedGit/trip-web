@@ -19,6 +19,16 @@ public class Comment {
 	private Date time;
 	private String remark;
 	private long travelId;
+	
+	public Comment() {
+    }
+	
+	public Comment(long userId,Date time,String remark,long travelId){
+	    this.remark = remark;
+	    this.time = time;
+	    this.travelId = travelId;
+	    this.userId = userId;
+	}
 
 	@Id
 	@GenericGenerator(name = "generator", strategy = "native")
