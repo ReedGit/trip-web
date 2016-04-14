@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import com.bysj.model.ContentImage;
 import com.bysj.service.ContentService;
 
 @Service(value="contentService")
+@Transactional
 public class ContentServiceImpl implements ContentService{
     
     @Resource(name="contentDao")

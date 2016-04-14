@@ -1,5 +1,7 @@
 package com.bysj.dao;
 
+import java.util.List;
+
 import com.bysj.model.PageBean;
 import com.bysj.model.Travel;
 
@@ -14,5 +16,7 @@ public interface TravelDao extends BaseDao<Travel>{
     public Travel findByTitle(String title);
     
     public boolean deleteTravel(long id);
+    
+    public PageBean<Travel> findByPage(int page,int size,List<Long> ids);
     
 }

@@ -16,7 +16,7 @@ public class ContentDaoImpl extends BaseDaoImpl<Content> implements ContentDao {
         hql.append("delete from Content c ").append(" where c.contentId in :ids");
         int delete = getSession().createQuery(hql.toString())
                 .setParameterList("ids", ids).executeUpdate();
-        return (delete == 0 ? true : false);
+        return (delete == 0 ? false : true);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ContentDaoImpl extends BaseDaoImpl<Content> implements ContentDao {
         hql.append("delete from ContentImage c ").append(" where c.contentId in :ids");
         int delete = getSession().createQuery(hql.toString())
                 .setParameterList("ids", contentIds).executeUpdate();
-        return (delete == 0 ? true : false);
+        return (delete == 0 ? false : true);
     }
     
     @SuppressWarnings("unchecked")

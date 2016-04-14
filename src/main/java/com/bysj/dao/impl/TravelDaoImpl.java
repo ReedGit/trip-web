@@ -1,6 +1,5 @@
 package com.bysj.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -90,7 +89,31 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
         hql.append("delete from Travel t ").append(" where t.travelId = :id");
         int delete = getSession().createQuery(hql.toString())
                 .setLong("id", id).executeUpdate();
-        return (delete == 0 ? true : false);
+        return (delete == 0 ? false : true);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public PageBean<Travel> findByPage(int page, int size, List<Long> ids) {
+        PageBean<Travel> pageBean = new PageBean<>(page, size);
+        StringBuilder hql = new StringBuilder();
+        hql.append("select distinct t from Travel t where t.travelId in :ids");
+        hql.append("order by t.createTime desc");
+
+        List<Travel> travels = getSession().createQuery(hql.toString())
+                .setFirstResult((page - 1) * size).setMaxResults(size).list();
+
+        pageBean.setList(travels);
+        pageBean.setTotal(getTotal(ids));
+
+        return pageBean;
+    }
+    
+    public int getTotal(List<Long> ids){
+        StringBuilder hql = new StringBuilder();
+        hql.append("select distinct t from Travel t where t.travelId in :ids");
+        int total = getSession().createQuery(hql.toString()).list().size();
+        return total;
     }
 
 }

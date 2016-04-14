@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bysj.dto.ContentDto;
 import com.bysj.model.Content;
 import com.bysj.model.PageBean;
 import com.bysj.model.Travel;
@@ -196,6 +197,18 @@ public class TravelController {
             HttpServletRequest request) {
         Long contentId = Long.parseLong(map.get("contentId").toString());
         JSONObject result = contentService.saveImage(contentId,files, request);
+        return result;
+    }
+    
+    @RequestMapping(value="/content/detail",method = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject detail(@RequestParam Map<String, Object> map){
+        JSONObject result = new JSONObject();
+        long travelId = Long.parseLong(map.get("travelId").toString());
+        List<ContentDto> contentDtos = travelService.detail(travelId);
+        result.put("status", "0");
+        result.put("msg", "");
+        result.put("content", contentDtos);
         return result;
     }
     
