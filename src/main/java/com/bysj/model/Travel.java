@@ -39,13 +39,10 @@ public class Travel {
         if (map.get("title") != null) {
             this.title = map.get("title").toString();
         }
+        this.startTime = new Date();
+        this.createTime = this.startTime;
 
         try {
-            if (map.get("startTime") != null) {
-                Date startTime = sdf.parse(map.get("startTime").toString());
-                this.startTime = startTime;
-                this.createTime = startTime;
-            }
             if (map.get("endTime") != null) {
                 Date endTime = sdf.parse(map.get("endTime").toString());
                 this.endTime = endTime;

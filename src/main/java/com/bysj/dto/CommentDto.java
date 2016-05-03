@@ -1,5 +1,7 @@
 package com.bysj.dto;
 
+import java.util.Date;
+
 import com.bysj.model.Comment;
 import com.bysj.model.Travel;
 import com.bysj.model.User;
@@ -8,7 +10,7 @@ public class CommentDto {
 
     private long commentId;
     private long userId;
-    private String time;
+    private Date time;
     private String remark;
     private String headImage;
     private String nickName;
@@ -24,6 +26,7 @@ public class CommentDto {
         this.commentId = comment.getCommentId();
         this.userId = comment.getUserId();
         this.remark = comment.getRemark();
+        this.time = comment.getTime();
     }
     
     public void setTravel(Travel travel){
@@ -55,11 +58,11 @@ public class CommentDto {
         this.commentId = commentId;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

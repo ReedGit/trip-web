@@ -9,11 +9,11 @@ import com.bysj.model.Travel;
 
 public interface TravelService {
 
-    public PageBean<Travel> findAllTravel(int page,int size);
+    public PageBean<TravelDto> findAllTravel(int page,int size);
     
-    public PageBean<Travel> findByArea(int page,int size,String...objects);
+    public PageBean<TravelDto> findByArea(int page,int size,String...objects);
     
-    public PageBean<Travel> findByTitle(int page,int size,String...objects);
+    public PageBean<TravelDto> findByTitle(int page,int size,String...objects);
     
     public Travel saveTravel(Travel travel);
     

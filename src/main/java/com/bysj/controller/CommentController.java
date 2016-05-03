@@ -78,7 +78,7 @@ public class CommentController {
         return result;
     }
     
-    @RequestMapping(value="/list",method=RequestMethod.POST)
+    @RequestMapping(value="/list",method=RequestMethod.GET)
     @ResponseBody
     public JSONObject getComment(@RequestParam Map<String, Object> map) {
         JSONObject result = new JSONObject();

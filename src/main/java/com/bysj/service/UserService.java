@@ -2,7 +2,6 @@ package com.bysj.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bysj.dto.UserDto;
 import com.bysj.model.User;
 

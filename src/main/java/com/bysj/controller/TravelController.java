@@ -113,7 +113,7 @@ public class TravelController {
         int page = 1;
         if (map.containsKey("page"))
             page = Integer.parseInt(map.get("page").toString());
-        PageBean<Travel> travels = travelService.findAllTravel(page,
+        PageBean<TravelDto> travels = travelService.findAllTravel(page,
                 Constants.PAGE_SIZE);
         result.put("status", "0");
         result.put("size", travels.getTotal());
@@ -133,7 +133,7 @@ public class TravelController {
         int page = 1;
         if (map.containsKey("page"))
             page = Integer.parseInt(map.get("page").toString());
-        PageBean<Travel> pageBean = travelService.findByArea(page,
+        PageBean<TravelDto> pageBean = travelService.findByArea(page,
                 Constants.PAGE_SIZE, params);
         result.put("status", "0");
         result.put("size", pageBean.getTotal());
@@ -153,7 +153,7 @@ public class TravelController {
         int page = 1;
         if (map.containsKey("page"))
             page = Integer.parseInt(map.get("page").toString());
-        PageBean<Travel> pageBean = travelService.findByArea(page,
+        PageBean<TravelDto> pageBean = travelService.findByArea(page,
                 Constants.PAGE_SIZE, params);
         result.put("status", "0");
         result.put("size", pageBean.getTotal());
@@ -164,7 +164,7 @@ public class TravelController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public JSONObject createTravel(@RequestParam Map<String, Object> map,
-            @RequestParam(value = "coverimage", required = false) MultipartFile file,
+            @RequestParam(value = "coverImage", required = false) MultipartFile file,
             HttpServletRequest request)
             throws ParseException {
         JSONObject result = new JSONObject();

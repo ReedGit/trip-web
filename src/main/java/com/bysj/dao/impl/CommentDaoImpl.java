@@ -32,6 +32,7 @@ public class CommentDaoImpl extends BaseDaoImpl<Comment> implements CommentDao {
            .append(" order by c.time desc ");
         
         List<Comment> comments = getSession().createQuery(hql.toString())
+        		.setLong("travelId", travelId)
                 .setFirstResult((page - 1) * size)
                 .setMaxResults(size)
                 .list();

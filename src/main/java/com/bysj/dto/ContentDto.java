@@ -1,5 +1,6 @@
 package com.bysj.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.bysj.model.Content;
@@ -13,6 +14,7 @@ public class ContentDto {
     private String coordinate;
     private int day;
     private List<String> imageurl;
+    private Date time;
     
     public void setContent(Content content){
         this.contentId = content.getContentId();
@@ -21,6 +23,7 @@ public class ContentDto {
         this.location = content.getLocation();
         this.coordinate = content.getCoordinate();
         this.day = content.getDay();
+        this.time = content.getCreatetime();
     }
     public long getContentId() {
         return contentId;
@@ -64,5 +67,13 @@ public class ContentDto {
     public void setImageurl(List<String> imageurl) {
         this.imageurl = imageurl;
     }
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
+	}
+    
+    
     
 }

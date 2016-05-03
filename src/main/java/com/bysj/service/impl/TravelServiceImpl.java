@@ -23,86 +23,121 @@ import com.bysj.service.TravelService;
 
 @Service(value = "travelService")
 @Transactional
-public class TravelServiceImpl implements TravelService{
-    
-    @Resource(name = "travelDao")
-    private TravelDao travelDao;
-    
-    @Resource(name = "contentDao")
-    private ContentDao contentDao;
-    
-    @Resource(name = "contentImageDao")
-    private ContentImageDao contentImageDao;
-    
-    @Resource(name = "userDao")
-    private UserDao userDao;
+public class TravelServiceImpl implements TravelService {
 
-    @Override
-    public PageBean<Travel> findAllTravel(int page, int size) {
-        return travelDao.findAllByPage(page, size);
-    }
+	@Resource(name = "travelDao")
+	private TravelDao travelDao;
 
-    @Override
-    public PageBean<Travel> findByArea(int page, int size, String... objects) {
-        return travelDao.findByArea(page, size, objects);
-    }
+	@Resource(name = "contentDao")
+	private ContentDao contentDao;
 
-    @Override
-    public PageBean<Travel> findByTitle(int page, int size, String... objects) {
-        return travelDao.findByTitle(page, size, objects);
-    }
+	@Resource(name = "contentImageDao")
+	private ContentImageDao contentImageDao;
 
-    @Override
-    public Travel saveTravel(Travel travel) {
-        return travelDao.save(travel);
-    }
+	@Resource(name = "userDao")
+	private UserDao userDao;
 
-    @Override
-    public Travel findByTitle(String title) {
-        return travelDao.findByTitle(title);
-    }
-    
-    @Override
-    public boolean deleteTravel(long id){
-        return travelDao.deleteTravel(id);
-    }
+	@Override
+	public PageBean<TravelDto> findAllTravel(int page, int size) {
+		PageBean<Travel> travels = travelDao.findAllByPage(page, size);
+		PageBean<TravelDto> pageBean = new PageBean<>(page, size);
+		List<TravelDto> travelDtos = new ArrayList<TravelDto>();
+		for (Travel travel : travels.getList()) {
+			User user = userDao.findById(travel.getUserId());
+			TravelDto travelDto = new TravelDto(travel);
+			travelDto.setUser(user);
+			travelDtos.add(travelDto);
+		}
+		pageBean.setTotal(travels.getTotal());
+		pageBean.setList(travelDtos);
+		return pageBean;
+	}
 
-    @Override
-    public List<ContentDto> detail(long travelId) {
-        List<ContentDto> contentDtos = new ArrayList<>();
-        List<Content> contents = contentDao.findByTravelId(travelId);
-        if(contents != null){
-            for(Content content:contents){
-                ContentDto contentDto = new ContentDto();
-                contentDto.setContent(content);
-                List<ContentImage> contentImages = contentImageDao.findByContentId(content.getContentId());
-                if(contentImages != null){
-                    List<String> images = new ArrayList<>();
-                    for(ContentImage contentImage:contentImages){
-                        images.add(contentImage.getImageUrl());
-                    }
-                    contentDto.setImageurl(images);
-                }
-                contentDtos.add(contentDto);
-            }
-        }
-        return contentDtos;
-    }
+	@Override
+	public PageBean<TravelDto> findByArea(int page, int size, String... objects) {
+		PageBean<Travel> travels = travelDao.findByArea(page, size, objects);
+		PageBean<TravelDto> pageBean = new PageBean<>(page, size);
+		List<TravelDto> travelDtos = new ArrayList<TravelDto>();
+		for (Travel travel : travels.getList()) {
+			User user = userDao.findById(travel.getUserId());
+			TravelDto travelDto = new TravelDto(travel);
+			travelDto.setUser(user);
+			travelDtos.add(travelDto);
+		}
+		pageBean.setTotal(travels.getTotal());
+		pageBean.setList(travelDtos);
+		return pageBean;
+	}
 
-    @Override
-    public PageBean<TravelDto> findByUserId(long userId, int page, int size) {
-        PageBean<TravelDto> pageBean = new PageBean<>(page, size);
-        List<TravelDto> travelDtos = new ArrayList<>();
-        PageBean<Travel> travels = travelDao.findByUser(page, size, userId);
-        for(Travel travel:travels.getList()){
-            User user = userDao.findById(travel.getUserId());
-            TravelDto travelDto = new TravelDto(travel);
-            travelDto.setUser(user);
-            travelDtos.add(travelDto);
-        }
-        pageBean.setTotal(travels.getTotal());
-        pageBean.setList(travelDtos);
-        return pageBean;
-    }
-    
+	@Override
+	public PageBean<TravelDto> findByTitle(int page, int size,
+			String... objects) {
+		PageBean<Travel> travels = travelDao.findByTitle(page, size, objects);
+		PageBean<TravelDto> pageBean = new PageBean<>(page, size);
+		List<TravelDto> travelDtos = new ArrayList<TravelDto>();
+		for (Travel travel : travels.getList()) {
+			User user = userDao.findById(travel.getUserId());
+			TravelDto travelDto = new TravelDto(travel);
+			travelDto.setUser(user);
+			travelDtos.add(travelDto);
+		}
+		pageBean.setTotal(travels.getTotal());
+		pageBean.setList(travelDtos);
+		return pageBean;
+	}
+
+	@Override
+	public Travel saveTravel(Travel travel) {
+		return travelDao.save(travel);
+	}
+
+	@Override
+	public Travel findByTitle(String title) {
+		return travelDao.findByTitle(title);
+	}
+
+	@Override
+	public boolean deleteTravel(long id) {
+		return travelDao.deleteTravel(id);
+	}
+
+	@Override
+	public List<ContentDto> detail(long travelId) {
+		List<ContentDto> contentDtos = new ArrayList<>();
+		List<Content> contents = contentDao.findByTravelId(travelId);
+		if (contents != null) {
+			for (Content content : contents) {
+				ContentDto contentDto = new ContentDto();
+				contentDto.setContent(content);
+				List<ContentImage> contentImages = contentImageDao
+						.findByContentId(content.getContentId());
+				if (contentImages != null) {
+					List<String> images = new ArrayList<>();
+					for (ContentImage contentImage : contentImages) {
+						images.add(contentImage.getImageUrl());
+					}
+					contentDto.setImageurl(images);
+				}
+				contentDtos.add(contentDto);
+			}
+		}
+		return contentDtos;
+	}
+
+	@Override
+	public PageBean<TravelDto> findByUserId(long userId, int page, int size) {
+		PageBean<TravelDto> pageBean = new PageBean<>(page, size);
+		List<TravelDto> travelDtos = new ArrayList<>();
+		PageBean<Travel> travels = travelDao.findByUser(page, size, userId);
+		for (Travel travel : travels.getList()) {
+			User user = userDao.findById(travel.getUserId());
+			TravelDto travelDto = new TravelDto(travel);
+			travelDto.setUser(user);
+			travelDtos.add(travelDto);
+		}
+		pageBean.setTotal(travels.getTotal());
+		pageBean.setList(travelDtos);
+		return pageBean;
+	}
+
 }
