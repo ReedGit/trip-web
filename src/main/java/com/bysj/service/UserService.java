@@ -14,6 +14,6 @@ public interface UserService {
     public User findById(long id);
     public void updateUser(User user);
     public User findByIdAndToken(long id,String token);
-    public JSONObject saveImage(Long id , MultipartFile file,String fileParentDirPath);
+    public String saveImage(Long id , MultipartFile file,String fileParentDirPath);
     public UserDto findByUserId(long userId);
 }

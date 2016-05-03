@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import com.bysj.dao.ContentDao;
 import com.bysj.dao.ContentImageDao;
 import com.bysj.dao.TravelDao;
+import com.bysj.dao.UserDao;
 import com.bysj.dto.ContentDto;
+import com.bysj.dto.TravelDto;
 import com.bysj.model.Content;
 import com.bysj.model.ContentImage;
 import com.bysj.model.PageBean;
 import com.bysj.model.Travel;
+import com.bysj.model.User;
 import com.bysj.service.TravelService;
 
 @Service(value = "travelService")
@@ -30,6 +33,9 @@ public class TravelServiceImpl implements TravelService{
     
     @Resource(name = "contentImageDao")
     private ContentImageDao contentImageDao;
+    
+    @Resource(name = "userDao")
+    private UserDao userDao;
 
     @Override
     public PageBean<Travel> findAllTravel(int page, int size) {
@@ -82,4 +88,21 @@ public class TravelServiceImpl implements TravelService{
         }
         return contentDtos;
     }
+
+    @Override
+    public PageBean<TravelDto> findByUserId(long userId, int page, int size) {
+        PageBean<TravelDto> pageBean = new PageBean<>(page, size);
+        List<TravelDto> travelDtos = new ArrayList<>();
+        PageBean<Travel> travels = travelDao.findByUser(page, size, userId);
+        for(Travel travel:travels.getList()){
+            User user = userDao.findById(travel.getUserId());
+            TravelDto travelDto = new TravelDto(travel);
+            travelDto.setUser(user);
+            travelDtos.add(travelDto);
+        }
+        pageBean.setTotal(travels.getTotal());
+        pageBean.setList(travelDtos);
+        return pageBean;
+    }
+    
 }

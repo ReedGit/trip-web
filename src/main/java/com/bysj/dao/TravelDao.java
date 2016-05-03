@@ -20,5 +20,6 @@ public interface TravelDao extends BaseDao<Travel>{
     public PageBean<Travel> findByPage(int page,int size,List<Long> ids);
     
     public int getTotalByUser(long userId);
+    public PageBean<Travel> findByUser(int page,int size,long userId);
     
 }

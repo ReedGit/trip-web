@@ -31,7 +31,8 @@ public class ContentDaoImpl extends BaseDaoImpl<Content> implements ContentDao {
     @SuppressWarnings("unchecked")
     public List<Content> findByTravelId(long travelId){
         StringBuilder hql = new StringBuilder();
-        hql.append(" from Content c ").append(" where c.travelId = :id");
+        hql.append(" from Content c ").append(" where c.travelId = :id")
+                                      .append(" order by c.createtime desc ");
         List<Content> contents = getSession().createQuery(hql.toString())
                 .setLong("id", travelId).list();
         return contents;

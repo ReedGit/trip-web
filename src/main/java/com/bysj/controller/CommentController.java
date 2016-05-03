@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bysj.dto.CommentDto;
 import com.bysj.model.Comment;
 import com.bysj.model.PageBean;
 import com.bysj.service.CommentService;
@@ -89,7 +90,7 @@ public class CommentController {
         if (map.containsKey("page")) {
             page = Integer.parseInt(map.get("page").toString());
         }
-        PageBean<Comment> pageBean = commentService
+        PageBean<CommentDto> pageBean = commentService
                 .findCommentByPage(page, Constants.PAGE_SIZE, travelId);
         result.put("status", Constants.SUCCESS);
         result.put("msg", "");

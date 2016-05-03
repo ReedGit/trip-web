@@ -295,7 +295,9 @@ public class UserController {
         token = map.get("token").toString();
         User user = userService.findByIdAndToken(id, token);
         if (user != null && !file.isEmpty()) {
-            result = userService.saveImage(id,file, fileParentPath);
+            String headimage = userService.saveImage(id,file, fileParentPath);
+            user.setHeadImage(headimage);
+            userService.updateUser(user);
         } else {
             result.put("status", "1");
             result.put("msg", "上传图片出现错误！");

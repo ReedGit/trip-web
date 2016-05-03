@@ -25,6 +25,7 @@ public class Travel {
     private Date createTime;
     private long userId;
     private String introduction;
+    private String coverimage;
 
     public Travel(){
         
@@ -43,6 +44,7 @@ public class Travel {
             if (map.get("startTime") != null) {
                 Date startTime = sdf.parse(map.get("startTime").toString());
                 this.startTime = startTime;
+                this.createTime = startTime;
             }
             if (map.get("endTime") != null) {
                 Date endTime = sdf.parse(map.get("endTime").toString());
@@ -70,6 +72,13 @@ public class Travel {
 
     public void setTravelId(long travelId) {
         this.travelId = travelId;
+    }
+    public String getCoverimage() {
+        return coverimage;
+    }
+
+    public void setCoverimage(String coverimage) {
+        this.coverimage = coverimage;
     }
 
     @Column(name = "title")

@@ -3,6 +3,7 @@ package com.bysj.service;
 import java.util.List;
 
 import com.bysj.dto.ContentDto;
+import com.bysj.dto.TravelDto;
 import com.bysj.model.PageBean;
 import com.bysj.model.Travel;
 
@@ -21,5 +22,7 @@ public interface TravelService {
     public boolean deleteTravel(long id);
     
     public List<ContentDto> detail(long travelId);
+    
+    public PageBean<TravelDto> findByUserId(long userId,int page,int size);
     
 }

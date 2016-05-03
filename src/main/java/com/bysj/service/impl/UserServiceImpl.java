@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bysj.dao.CollectionDao;
 import com.bysj.dao.LikeDao;
 import com.bysj.dao.TravelDao;
@@ -69,9 +68,9 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public JSONObject saveImage(Long id , MultipartFile file,String fileParentDirPath) {
-        JSONObject result = new JSONObject();
+    public String saveImage(Long id , MultipartFile file,String fileParentDirPath) {
         String fileOriginName = file.getOriginalFilename();
+        String imagePath = null;
         if (fileOriginName.endsWith(".jpg")
                 || fileOriginName.endsWith(".png")
                 || fileOriginName.endsWith(".JPG")
@@ -97,29 +96,14 @@ public class UserServiceImpl implements UserService{
             File fileSave = new File(fileSavePath.toString());
             try {
                 file.transferTo(fileSave);
-                String imagePath = fileSubDirPath.toString() + "\\" + fileName;
+                imagePath = fileSubDirPath.toString() + "\\" + fileName;
                 imagePath = imagePath.replaceAll("\\\\", "/");
-                User user = findById(id);
-                
-                user.setHeadImage(imagePath);
-                
-                this.updateUser(user);
-                UserDto userDto = new UserDto(user);
-                result.put("status", "0");
-                result.put("msg", "图片上传成功");
-                result.put("data", userDto);
             } catch (IllegalStateException e) {
-                result.put("status", "1");
-                result.put("msg", e.getMessage());
             } catch (IOException e) {
-                result.put("status", "1");
-                result.put("msg", e.getMessage());
             }
         } else {
-            result.put("status", "1");
-            result.put("msg", "图片格式只支持jpg/png/gif!");
         }
-        return result;
+        return imagePath;
     }
 
     @Override

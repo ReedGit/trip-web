@@ -1,18 +1,12 @@
 package com.bysj;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Test;
-
-import com.bysj.model.User;
 
 public class SHATest {
     

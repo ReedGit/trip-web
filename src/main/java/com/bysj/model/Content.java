@@ -1,5 +1,7 @@
 package com.bysj.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ public class Content {
 	private long travelId;
 	private String coordinate;
 	private int day;
+	private Date createtime;
 
 	@Id
 	@GenericGenerator(name = "generator", strategy = "native")
@@ -27,7 +30,15 @@ public class Content {
 		return contentId;
 	}
 
-	public void setContentId(long contentId) {
+	public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public void setContentId(long contentId) {
 		this.contentId = contentId;
 	}
 

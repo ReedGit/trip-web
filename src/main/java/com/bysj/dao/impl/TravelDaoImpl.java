@@ -126,4 +126,21 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
         return total;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public PageBean<Travel> findByUser(int page, int size, long userId) {
+        PageBean<Travel> pageBean = new PageBean<>(page, size);
+        StringBuilder hql = new StringBuilder();
+        hql.append("select distinct t from Travel t where t.userId = :userId ");
+        hql.append("order by t.createTime desc");
+
+        List<Travel> travels = getSession().createQuery(hql.toString())
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * size).setMaxResults(size).list();
+
+        pageBean.setList(travels);
+        pageBean.setTotal(getTotalByUser(userId));
+
+        return pageBean;
+    }
 }
