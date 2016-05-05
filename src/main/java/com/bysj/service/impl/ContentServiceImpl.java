@@ -57,7 +57,7 @@ public class ContentServiceImpl implements ContentService{
         JSONObject result = new JSONObject();
         String fileParentDirPath = request.getSession().getServletContext().getRealPath("/");
         List<ContentImage> contentImages = new ArrayList<>();
-        for(MultipartFile file:files){
+		for (MultipartFile file : files){
             String fileOriginName = file.getOriginalFilename();
             if (fileOriginName.endsWith(".jpg")
                     || fileOriginName.endsWith(".png")

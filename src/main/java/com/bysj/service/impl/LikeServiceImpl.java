@@ -34,12 +34,15 @@ public class LikeServiceImpl implements LikeService{
     public PageBean<Travel> findLikeByUser(long userId, int page, int size) {
         List<Like> likes = likeDao.findTravelByUser(userId);
         List<Long> ids = new ArrayList<>();
+        PageBean<Travel> travels = new PageBean<Travel>(page, size);
         if(likes != null){
             for(Like like:likes){
                 ids.add(like.getTravelId());
             }
         }
-        PageBean<Travel> travels = travelDao.findByPage(page, size, ids);
+        if (ids.size() > 0) {
+        	 travels = travelDao.findByPage(page, size, ids);
+		}
         return travels;
     }
 

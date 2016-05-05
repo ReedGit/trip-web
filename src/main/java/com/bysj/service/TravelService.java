@@ -25,4 +25,8 @@ public interface TravelService {
     
     public PageBean<TravelDto> findByUserId(long userId,int page,int size);
     
+    public void updateTravel(Travel travel);
+    
+    public Travel findById(long id);
+    
 }

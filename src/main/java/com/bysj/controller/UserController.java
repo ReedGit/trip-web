@@ -92,33 +92,14 @@ public class UserController {
     public JSONObject login(@RequestParam Map<String, Object> map,
                             HttpServletRequest request) {
         JSONObject result = new JSONObject();
-//        Cookie[] cookies = request.getCookies();
-//        if(cookies != null){
-//            for(Cookie cookie : cookies){
-//                if()
-//            }
-//        }
-        
         String email = map.get("email").toString().trim();
         String password = map.get("password").toString().trim();
-//        int autoLogin = 0;
-//        if(map.get("autoLogin") != null){
-//            autoLogin = Integer.parseInt(map.get(autoLogin).toString());
-//        }
         User user = userService.findByNameAndPass(email, password);
         if (user != null) {
             String token = SecurityUtils.getToken();
             user.setToken(token);
             userService.updateUser(user);
             User newUser = userService.findById(user.getUserId());
-//            //保存session
-//            HttpSession session = request.getSession();
-//            session.setAttribute(Constants.USER_KEY, newUser.getEmail());
-//            session.setMaxInactiveInterval(Constants.MAX_ACTIVE_TIME);
-//            
-//            if(autoLogin == 1){
-//                Cookie cookie = 
-//            }
             UserDto userDto = new UserDto(newUser);
             result.put("status", "0");
             result.put("msg", "success");

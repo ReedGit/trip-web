@@ -140,4 +140,15 @@ public class TravelServiceImpl implements TravelService {
 		return pageBean;
 	}
 
+	@Override
+	public void updateTravel(Travel travel) {
+		travelDao.update(travel);
+		
+	}
+
+	@Override
+	public Travel findById(long id) {
+		return travelDao.findById(id);
+	}
+
 }

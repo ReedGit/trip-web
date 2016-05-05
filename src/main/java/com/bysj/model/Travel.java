@@ -21,7 +21,6 @@ public class Travel {
     private String title;
     private Date startTime;
     private Date endTime;
-    @Column(name="createtime")
     private Date createTime;
     private long userId;
     private String introduction;
@@ -132,6 +131,7 @@ public class Travel {
                 + "]";
     }
 
+    @Column(name="createtime")
     public Date getCreateTime() {
         return createTime;
     }
