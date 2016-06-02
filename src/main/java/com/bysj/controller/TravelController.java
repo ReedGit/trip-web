@@ -1,5 +1,6 @@
 package com.bysj.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -170,12 +171,17 @@ public class TravelController {
 		String query = "";
 		if (map.containsKey("q")) {
 			query = map.get("q").toString();
+			try {
+				query = new String(query.getBytes("iso8859-1"), "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		}
 		String[] params = query.split(" ");
 		int page = 1;
 		if (map.containsKey("page"))
 			page = Integer.parseInt(map.get("page").toString());
-		PageBean<TravelDto> pageBean = travelService.findByArea(page,
+		PageBean<TravelDto> pageBean = travelService.findByTitle(page,
 				Constants.PAGE_SIZE, params);
 		result.put("status", "0");
 		result.put("size", pageBean.getTotal());

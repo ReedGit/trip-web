@@ -41,8 +41,7 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
 				" where t.travelId = c.travelId ");
 		StringBuilder andSql = new StringBuilder();
 		for (Object param : params) {
-			andSql.append(" and c.location like '%").append(param)
-					.append("%' ");
+			andSql.append(" or c.location like '%").append(param).append("%' ");
 		}
 		hql.append(andSql).append("order by t.createTime desc");
 
@@ -62,8 +61,16 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
 		StringBuilder hql = new StringBuilder();
 		hql.append("select distinct t from Travel t ");
 		StringBuilder andSql = new StringBuilder();
+		boolean first = true;
 		for (Object param : params) {
-			andSql.append(" and t.title like '%").append(param).append("%' ");
+			if (first) {
+				first = false;
+				andSql.append(" where t.title like '%").append(param.toString())
+						.append("%' ");
+			} else {
+				andSql.append(" or t.title like '%").append(param.toString())
+						.append("%' ");
+			}
 		}
 		hql.append(andSql).append("order by t.createTime desc");
 
@@ -99,7 +106,6 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
 		StringBuilder hql = new StringBuilder();
 		hql.append("select distinct t from Travel t where t.travelId in (:ids)");
 		hql.append(" order by t.createTime desc");
-		System.out.println(ids.size());
 		List<Travel> travels = getSession().createQuery(hql.toString())
 				.setParameterList("ids", ids).setFirstResult((page - 1) * size)
 				.setMaxResults(size).list();
@@ -123,7 +129,8 @@ public class TravelDaoImpl extends BaseDaoImpl<Travel> implements TravelDao {
 	public int getTotal(List<Long> ids) {
 		StringBuilder hql = new StringBuilder();
 		hql.append("select distinct t from Travel t where t.travelId in (:ids)");
-		int total = getSession().createQuery(hql.toString()).setParameterList("ids", ids).list().size();
+		int total = getSession().createQuery(hql.toString())
+				.setParameterList("ids", ids).list().size();
 		return total;
 	}
 
